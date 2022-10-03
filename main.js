@@ -20,7 +20,19 @@ function init() {
     function createBalloonLayout(coords, myMap) {
 
         let ballContentLayout = ymaps.templateLayoutFactory.createClass(
-            `<button id="my-but" mydata={{properties.data.mes}}>Маршрут {{ properties.name }}{{ properties.data.mes }}</button>`, {
+            `
+            <style>
+                .station-layout {
+                    display:flex;
+                    justify-content: center;
+                    min-height: 45px;
+                }
+            </style>
+            <div class="station-layout">
+                <button id="my-but" mydata={{properties.data.mes}} class="one">
+                    Маршрут {{ properties.name }}{{ properties.data.mes }}
+                </button>
+            </div>`, {
 
             // Переопределяем функцию build, чтобы при создании макета начинать
             // слушать событие click на кнопке-счетчике.
@@ -43,7 +55,6 @@ function init() {
             },
 
             onClick: function () {
-                console.log(this.getAttribute("mydata"));
                 let location = ymaps.geolocation.get();
                 location.then(function (result) {
                     //Получение координат пользователя
@@ -70,54 +81,13 @@ function init() {
                     });
                    
                 }).catch(function (error) {
-                    console.log(error);
+                    alert(error);
                 });
             }
         });
 
         return ballContentLayout;
     }
-
-
-    function createButtonLayout(){
-        let buttonContentLayout = ymaps.templateLayoutFactory.createClass(
-            `
-            <style>
-                p {
-                    color: red;
-                }
-            </style>
-            <button id="my-but2">{{ data.content}}</button>
-            <p>Test</p>`, {
-
-            // Переопределяем функцию build, чтобы при создании макета начинать
-            // слушать событие click на кнопке-счетчике.
-            build: function () {
-                // Сначала вызываем метод build родительского класса.
-                buttonContentLayout.superclass.build.call(this);
-                // А затем выполняем дополнительные действия.
-                let myBut = document.getElementById('my-but2');
-                myBut.onclick = this.onClick;
-            },
-
-            // Аналогично переопределяем функцию clear, чтобы снять
-            // прослушивание клика при удалении макета с карты.
-            clear: function () {
-                // Выполняем действия в обратном порядке - сначала снимаем слушателя,
-                // а потом вызываем метод clear родительского класса.
-                let myBut = document.getElementById('my-but2');
-                myBut.onclick = null;
-                buttonContentLayout.superclass.clear.call(this);
-            },
-
-            onClick: function () {
-               alert("Hi");
-            }
-        });
-
-        return buttonContentLayout;
-    }
-
 
     let myCluster = new ymaps.Clusterer();
 
@@ -133,21 +103,4 @@ function init() {
 
     myMap.geoObjects.add(myCluster);
 
-    myMap.controls.add(new ymaps.control.Button({
-        data: {
-            content: "Жмак-жмак-жмак"
-        },
-        options: {
-            layout: createButtonLayout()
-        }
-    }));
-
-    // ymaps.route(blueCoords)
-    // .then(function (route){
-    //     myMap.geoObjects.add(route);
-    //     alert(route.getLength());
-    // });
-
-    // Через коллекции можно подписываться на события дочерних элементов.
-    //blueCollection.events.add('click', function () { alert('Кликнули по синей метке') });
 }
