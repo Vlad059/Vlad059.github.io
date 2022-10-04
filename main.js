@@ -32,6 +32,7 @@ function init() {
                 <button id="my-but" mydata={{properties.data.mes}} class="one">
                     Маршрут {{ properties.name }}{{ properties.data.mes }}
                 </button>
+                <p id="my-info"></p>
             </div>`, {
 
             // Переопределяем функцию build, чтобы при создании макета начинать
@@ -54,12 +55,17 @@ function init() {
                 ballContentLayout.superclass.clear.call(this);
             },
 
-            onClick: function () {
+            onClick: function (e) {
                 
-                navigator.geolocation.getCurrentPosition(makeRoute, (err)=>alert(err.message));
+                navigator.geolocation.getCurrentPosition(makeRoute, (err)=>addText(err.message));
+
+                function addText (text) {
+                    let pElem = document.getElementById("my-info");
+                    pElem.innerHTML = text;
+                }
 
                 function makeRoute(position) {
-					alert(position.coords.latitude);
+					addText(position.coords.latitude);
                     let userCoords = [position.coords.latitude, position.coords.longitude];
 
                     ymaps.route([userCoords, coords])
