@@ -55,14 +55,14 @@ function init() {
             },
 
             onClick: function () {
-                let location = ymaps.geolocation.get();
-                location.then(function (result) {
-                    //Получение координат пользователя
-                    let userCoords = result.geoObjects.get(0).geometry.getCoordinates();
+                
+                navigator.geolocation.getCurrentPosition(makeRoute, (err)=>alert(err.message));
+
+                function makeRoute(position) {
+                    let userCoords = [position.coords.latitude, position.coords.longitude];
 
                     ymaps.route([userCoords, coords])
                     .then(function (route){
-                        console.log(route.getWayPoints());
                         //Установка значка для пользователя
                         route.getWayPoints().get(0).options.set('preset', 'islands#geolocationIcon');
 
@@ -79,10 +79,7 @@ function init() {
                         //Можно узнать длину пути
                         //alert(route.getLength());
                     });
-                   
-                }).catch(function (error) {
-                    alert(error);
-                });
+                }
             }
         });
 
