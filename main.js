@@ -59,6 +59,7 @@ function init() {
                 navigator.geolocation.getCurrentPosition(makeRoute, (err)=>alert(err.message));
 
                 function makeRoute(position) {
+					alert(position.coords.latitude);
                     let userCoords = [position.coords.latitude, position.coords.longitude];
 
                     ymaps.route([userCoords, coords])
