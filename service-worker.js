@@ -9,4 +9,6 @@ define(["./workbox-79ffe3e0"],(function(e){"use strict";e.setCacheNameDetails({p
 self.addEventListener("install", (event)=>{
     self.skipWaiting();
 });
+
+console.log("SW");
 //# sourceMappingURL=service-worker.js.map
