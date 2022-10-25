@@ -56,12 +56,37 @@ function init() {
 
             onClick: function () {
                 
+                handlePermission();
+
                 navigator.geolocation.getCurrentPosition(
                     makeRoute, 
                     (err)=>alert(err.message), 
                     { timeout: 4000 }
                 );
 
+                function handlePermission() {
+                    navigator.permissions.query({ name: 'geolocation' }).then((result) => {
+                      if (result.state === 'granted') {
+                        report(result.state);
+                        geoBtn.style.display = 'none';
+                      } else if (result.state === 'prompt') {
+                        report(result.state);
+                        geoBtn.style.display = 'none';
+                        navigator.geolocation.getCurrentPosition(revealPosition,positionDenied,geoSettings);
+                      } else if (result.state === 'denied') {
+                        report(result.state);
+                        geoBtn.style.display = 'inline';
+                      }
+                      result.addEventListener('change', () => {
+                        report(result.state);
+                      });
+                    });
+                }
+                  
+                function report(state) {
+                    console.log(`Permission ${state}`);
+                }
+                  
                 function makeRoute(position) {
                     let userCoords = [position.coords.latitude, position.coords.longitude];
 
@@ -85,6 +110,7 @@ function init() {
                     });
                 }
             }
+       
         });
 
         return ballContentLayout;
@@ -106,15 +132,15 @@ function init() {
 
 }
 
-async function getInternet(){
-    try {
-        let x = await fetch("https://vlad059.github.io/favicon.ico");
-        console.log(x);
-    } catch {
-        alert("Нет интернета");  
-    } finally {
-        setTimeout(getInternet, 5000);
-    }    
-}
+// async function getInternet(){
+//     try {
+//         let x = await fetch("https://vlad059.github.io/favicon.ico");
+//         console.log(x);
+//     } catch {
+//         alert("Нет интернета");  
+//     } finally {
+//         setTimeout(getInternet, 5000);
+//     }    
+// }
 
-getInternet();
+// getInternet();
