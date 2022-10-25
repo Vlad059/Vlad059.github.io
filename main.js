@@ -104,7 +104,10 @@ function init() {
             mes: "Hi"
         } }, {
             balloonContentLayout: BalloonContentLayout,
-            preset: 'islands#blueFuelStationIcon'
+            // preset: 'islands#blueFuelStationIcon'
+            iconLayout: 'default#image',
+            iconImageHref: 'favicon.ico',
+            iconImageSize: [20, 20],
         }));
     }
 
@@ -124,3 +127,16 @@ function init() {
 // }
 
 // getInternet();
+
+// async function getInternet2(){
+//     if(navigator.onLine){
+//         console.log("Online");
+//     } else {
+//         alert("Нет интернета");
+//     }
+//     setTimeout(getInternet2, 5000);    
+// }
+
+// getInternet2();
+
+// alert("Hi!");
