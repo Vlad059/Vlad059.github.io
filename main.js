@@ -56,35 +56,17 @@ function init() {
 
             onClick: function () {
                 
-                handlePermission();
 
-                function handlePermission() {
-                    navigator.permissions.query({ name: 'geolocation' }).then((result) => {
-                      if (result.state === 'granted' || result.state === 'prompt') {
-                        report(result.state);
 
-                        //Получение координат пользователя
+                navigator.geolocation.getCurrentPosition(
+                    makeRoute, 
+                    (err)=>{
+                        let myMessage = "Нужно разрешение на геолокацию";
+                        alert(err.message+" "+myMessage);
+                    }, 
+                    { timeout: 4000 }
+                );
 
-                        navigator.geolocation.getCurrentPosition(
-                            makeRoute, 
-                            (err)=>alert(err.message), 
-                            { timeout: 4000 }
-                        );
-                 
-                      } else if (result.state === 'denied') {
-                        report(result.state);
-                        
-                      }
-                      result.addEventListener('change', () => {
-                        report(result.state);
-                      });
-                    });
-                }
-                  
-                function report(state) {
-                    console.log(`Permission ${state}`);
-                }
-                  
                 function makeRoute(position) {
                     let userCoords = [position.coords.latitude, position.coords.longitude];
 
