@@ -101,3 +101,16 @@ function init() {
     myMap.geoObjects.add(myCluster);
 
 }
+
+async function getInternet(){
+    try {
+        let x = await fetch("https://www.google.com/");
+        console.log(x);
+    } catch {
+        alert("Нет интернета");  
+    } finally {
+        setTimeout(getInternet, 5000);
+    }    
+}
+
+getInternet();
