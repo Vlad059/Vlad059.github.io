@@ -104,7 +104,7 @@ function init() {
 
 async function getInternet(){
     try {
-        let x = await fetch("https://www.google.com/");
+        let x = await fetch("https://vlad059.github.io/favicon.ico");
         console.log(x);
     } catch {
         alert("Нет интернета");  
