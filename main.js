@@ -56,7 +56,11 @@ function init() {
 
             onClick: function () {
                 
-                navigator.geolocation.getCurrentPosition(makeRoute, (err)=>alert(err.message));
+                navigator.geolocation.getCurrentPosition(
+                    makeRoute, 
+                    (err)=>alert(err.message), 
+                    { timeout: 4000 }
+                );
 
                 function makeRoute(position) {
                     let userCoords = [position.coords.latitude, position.coords.longitude];
