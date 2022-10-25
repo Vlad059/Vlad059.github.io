@@ -60,12 +60,9 @@ function init() {
 
                 function handlePermission() {
                     navigator.permissions.query({ name: 'geolocation' }).then((result) => {
-                      if (result.state === 'granted') {
+                      if (result.state === 'granted' || result.state === 'prompt') {
                         report(result.state);
-                        
-                      } else if (result.state === 'prompt') {
-                        report(result.state);
-                       
+
                         //Получение координат пользователя
 
                         navigator.geolocation.getCurrentPosition(
@@ -73,7 +70,7 @@ function init() {
                             (err)=>alert(err.message), 
                             { timeout: 4000 }
                         );
-
+                 
                       } else if (result.state === 'denied') {
                         report(result.state);
                         
