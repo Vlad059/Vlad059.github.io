@@ -58,24 +58,25 @@ function init() {
                 
                 handlePermission();
 
-                navigator.geolocation.getCurrentPosition(
-                    makeRoute, 
-                    (err)=>alert(err.message), 
-                    { timeout: 4000 }
-                );
-
                 function handlePermission() {
                     navigator.permissions.query({ name: 'geolocation' }).then((result) => {
                       if (result.state === 'granted') {
                         report(result.state);
-                        geoBtn.style.display = 'none';
+                        
                       } else if (result.state === 'prompt') {
                         report(result.state);
-                        geoBtn.style.display = 'none';
-                        navigator.geolocation.getCurrentPosition(revealPosition,positionDenied,geoSettings);
+                       
+                        //Получение координат пользователя
+
+                        navigator.geolocation.getCurrentPosition(
+                            makeRoute, 
+                            (err)=>alert(err.message), 
+                            { timeout: 4000 }
+                        );
+
                       } else if (result.state === 'denied') {
                         report(result.state);
-                        geoBtn.style.display = 'inline';
+                        
                       }
                       result.addEventListener('change', () => {
                         report(result.state);
